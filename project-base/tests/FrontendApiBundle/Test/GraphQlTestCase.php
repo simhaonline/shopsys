@@ -7,19 +7,14 @@ namespace Tests\FrontendApiBundle\Test;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrontendApiBundle\Component\Domain\EnabledOnDomainChecker;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\Test\FunctionalTestCase;
+use Tests\App\Test\TransactionFunctionalTestCase;
 
-abstract class GraphQlTestCase extends FunctionalTestCase
+abstract class GraphQlTestCase extends TransactionFunctionalTestCase
 {
     /**
      * @var \Symfony\Bundle\FrameworkBundle\Client
      */
     protected $client;
-
-    /**
-     * @var \Shopsys\FrameworkBundle\Component\EntityExtension\EntityManagerDecorator
-     */
-    protected $em;
 
     /**
      * @var \Shopsys\FrontendApiBundle\Component\Domain\EnabledOnDomainChecker
@@ -28,31 +23,15 @@ abstract class GraphQlTestCase extends FunctionalTestCase
 
     protected function setUp(): void
     {
-        $this->client = $this->findClient(true);
+        parent::setUp();
 
-        /*
-         * Newly created client has its own container
-         * To be able to isolate requests made with this new client,
-         * it's necessary to start transaction on entityManager from the client's container.
-         */
-
-        $this->domain = $this->client->getContainer()->get(Domain::class);
+        $this->client = $this->findClient();
         $this->enabledOnCurrentDomainChecker = $this->getContainer()->get(EnabledOnDomainChecker::class);
-        $this->em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-
         $this->domain->switchDomainById(Domain::FIRST_DOMAIN_ID);
-        $this->em->beginTransaction();
 
         if (!$this->enabledOnCurrentDomainChecker->isEnabledOnCurrentDomain()) {
             $this->markTestSkipped('Frontend API disabled on domain');
         }
-
-        parent::setUp();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->em->rollback();
     }
 
     /**

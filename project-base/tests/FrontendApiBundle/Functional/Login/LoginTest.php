@@ -11,9 +11,14 @@ class LoginTest extends GraphQlTestCase
 {
     /**
      * @var \Shopsys\FrontendApiBundle\Model\Token\TokenFacade
-     * @inject
      */
     protected $tokenFacade;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->tokenFacade = $this->getTestContainer()->get(\Shopsys\FrontendApiBundle\Model\Token\TokenFacade::class);
+    }
 
     public function testLoginMutation(): void
     {

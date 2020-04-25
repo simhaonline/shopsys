@@ -8,35 +8,37 @@ use App\DataFixtures\Demo\ProductDataFixture;
 use Shopsys\FrameworkBundle\Model\Product\Availability\Availability;
 use Shopsys\FrameworkBundle\Model\Product\Product;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 final class AvailabilityFacadeTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\Availability\AvailabilityDataFactoryInterface
-     * @inject
      */
     private $availabilityDataFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\Availability\AvailabilityFacade
-     * @inject
      */
     private $availabilityFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface
-     * @inject
      */
     private $productDataFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductFacade
-     * @inject
      */
     private $productFacade;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->availabilityDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\Availability\AvailabilityDataFactoryInterface::class);
+        $this->availabilityFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\Availability\AvailabilityFacade::class);
+        $this->productDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface::class);
+        $this->productFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductFacade::class);
+    }
 
     public function testDeleteByIdAndReplaceProductAvailability(): void
     {

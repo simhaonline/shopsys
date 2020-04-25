@@ -8,17 +8,19 @@ use App\DataFixtures\Demo\CategoryDataFixture;
 use App\DataFixtures\Demo\PricingGroupDataFixture;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Tests\App\Test\ParameterTransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class ParameterFilterChoiceRepositoryTest extends ParameterTransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\Filter\ParameterFilterChoiceRepository
-     * @inject
      */
     private $parameterFilterChoiceRepository;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->parameterFilterChoiceRepository = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\Filter\ParameterFilterChoiceRepository::class);
+    }
 
     public function testParameterFilterChoicesFromCategoryWithNoParameters(): void
     {

@@ -6,26 +6,28 @@ namespace Tests\App\Functional\Model\Transport;
 
 use App\Model\Transport\Transport;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class TransportDomainTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     protected const FIRST_DOMAIN_ID = 1;
     protected const SECOND_DOMAIN_ID = 2;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Transport\TransportDataFactoryInterface
-     * @inject
      */
     private $transportDataFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Transport\TransportFactoryInterface
-     * @inject
      */
     private $transportFactory;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->transportDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Transport\TransportDataFactoryInterface::class);
+        $this->transportFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Transport\TransportFactoryInterface::class);
+    }
 
     public function testCreateTransportEnabledOnDomain()
     {

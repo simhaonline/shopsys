@@ -10,6 +10,7 @@
     convertWarningsToExceptions="true"
     processIsolation="false"
     stopOnFailure="false"
+    stopOnError="true"
     failOnWarning="true"
     beStrictAboutTestsThatDoNotTestAnything="false"
 >
@@ -50,8 +51,6 @@
         </whitelist>
     </filter>
 
-    <listeners>
-        <listener class="Zalas\Injector\PHPUnit\TestListener\ServiceInjectorListener" />
-    </listeners>
+
 
 </phpunit>

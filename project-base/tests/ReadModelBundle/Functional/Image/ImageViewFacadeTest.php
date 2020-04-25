@@ -24,9 +24,14 @@ class ImageViewFacadeTest extends FunctionalTestCase
 
     /**
      * @var \Shopsys\ReadModelBundle\Image\ImageViewFacade
-     * @inject
      */
     private $imageViewFacade;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->imageViewFacade = $this->getTestContainer()->get(\Shopsys\ReadModelBundle\Image\ImageViewFacade::class);
+    }
 
     public function testGetForSingleEntityId(): void
     {

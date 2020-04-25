@@ -14,23 +14,25 @@ use Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserIdentifier;
 use Shopsys\FrameworkBundle\Model\Product\Availability\Availability;
 use Shopsys\FrameworkBundle\Model\Product\Availability\AvailabilityData;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class CartTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface
-     * @inject
      */
     private $productDataFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Pricing\Vat\VatFacade
-     * @inject
      */
     private $vatFacade;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->productDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface::class);
+        $this->vatFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Pricing\Vat\VatFacade::class);
+    }
 
     public function testRemoveItem()
     {

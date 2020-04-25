@@ -6,32 +6,34 @@ namespace Tests\App\Functional\Model\Payment;
 
 use App\Model\Payment\Payment;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class IndependentPaymentVisibilityCalculationTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     protected const FIRST_DOMAIN_ID = 1;
     protected const SECOND_DOMAIN_ID = 2;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Payment\IndependentPaymentVisibilityCalculation
-     * @inject
      */
     private $independentPaymentVisibilityCalculation;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Payment\PaymentDataFactoryInterface
-     * @inject
      */
     private $paymentDataFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Localization\Localization
-     * @inject
      */
     private $localization;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->paymentDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Payment\PaymentDataFactoryInterface::class);
+        $this->independentPaymentVisibilityCalculation = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Payment\IndependentPaymentVisibilityCalculation::class);
+        $this->localization = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Localization\Localization::class);
+    }
 
     public function testIsIndependentlyVisible()
     {

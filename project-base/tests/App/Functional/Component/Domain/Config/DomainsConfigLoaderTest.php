@@ -11,9 +11,14 @@ class DomainsConfigLoaderTest extends FunctionalTestCase
 {
     /**
      * @var \Shopsys\FrameworkBundle\Component\Domain\Config\DomainsConfigLoader
-     * @inject
      */
     private $domainsConfigLoader;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->domainsConfigLoader = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Component\Domain\Config\DomainsConfigLoader::class);
+    }
 
     public function testLoadDomainConfigsFromYaml()
     {

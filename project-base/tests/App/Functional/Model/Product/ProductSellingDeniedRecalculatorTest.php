@@ -6,29 +6,31 @@ namespace Tests\App\Functional\Model\Product;
 
 use App\DataFixtures\Demo\ProductDataFixture;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class ProductSellingDeniedRecalculatorTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductSellingDeniedRecalculator
-     * @inject
      */
     private $productSellingDeniedRecalculator;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductFacade
-     * @inject
      */
     private $productFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface
-     * @inject
      */
     private $productDataFactory;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->productFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductFacade::class);
+        $this->productSellingDeniedRecalculator = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductSellingDeniedRecalculator::class);
+        $this->productDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface::class);
+    }
 
     public function testCalculateSellingDeniedForProductSellableVariant()
     {

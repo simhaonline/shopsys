@@ -7,26 +7,28 @@ namespace Tests\App\Functional\Model\Customer;
 use App\DataFixtures\Demo\PricingGroupDataFixture;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class UserFacadeTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     protected const EXISTING_EMAIL_ON_DOMAIN_1 = 'no-reply.3@shopsys.com';
     protected const EXISTING_EMAIL_ON_DOMAIN_2 = 'no-reply.4@shopsys.com';
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserFacade
-     * @inject
      */
     protected $customerUserFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserUpdateDataFactoryInterface
-     * @inject
      */
     protected $customerUserUpdateDataFactory;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->customerUserFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserFacade::class);
+        $this->customerUserUpdateDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserUpdateDataFactoryInterface::class);
+    }
 
     public function testChangeEmailToExistingEmailButDifferentDomainDoNotThrowException()
     {

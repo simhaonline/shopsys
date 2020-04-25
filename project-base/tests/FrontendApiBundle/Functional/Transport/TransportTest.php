@@ -10,7 +10,6 @@ class TransportTest extends GraphQlTestCase
 {
     /**
      * @var \Shopsys\FrameworkBundle\Model\Transport\TransportFacade
-     * @inject
      */
     protected $transportFacade;
 
@@ -21,6 +20,7 @@ class TransportTest extends GraphQlTestCase
 
     protected function setUp(): void
     {
+        $this->transportFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Transport\TransportFacade::class);
         $this->transport = $this->transportFacade->getById(2);
 
         parent::setUp();

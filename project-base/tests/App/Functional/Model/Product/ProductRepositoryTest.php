@@ -13,29 +13,31 @@ use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Model\Product\Filter\ProductFilterData;
 use Shopsys\FrameworkBundle\Model\Product\Listing\ProductListOrderingConfig;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class ProductRepositoryTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductRepository
-     * @inject
      */
     private $productRepository;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface
-     * @inject
      */
     private $productDataFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductFacade
-     * @inject
      */
     private $productFacade;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->productDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface::class);
+        $this->productRepository = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductRepository::class);
+        $this->productFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductFacade::class);
+    }
 
     public function testVisibleAndNotSellingDeniedProductIsListed()
     {

@@ -12,15 +12,23 @@ class AllFeedsTest extends FunctionalTestCase
 {
     /**
      * @var \Shopsys\FrameworkBundle\Model\Feed\FeedFacade
-     * @inject
      */
     private $feedFacade;
 
+    public function setUp(): void
+    {
+        $this->feedFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Feed\FeedFacade::class);
+    }
+
     /**
      * @var \League\Flysystem\FilesystemInterface
-     * @inject
      */
     private $filesystem;
+
+    public function setUp(): void
+    {
+        $this->filesystem = $this->getTestContainer()->get(\League\Flysystem\FilesystemInterface::class);
+    }
 
     /**
      * @return array

@@ -8,19 +8,21 @@ use CommerceGuys\Intl\NumberFormat\NumberFormatRepository;
 use Shopsys\FrameworkBundle\Model\Localization\Localization;
 use Shopsys\FrameworkBundle\Twig\NumberFormatterExtension;
 use Tests\App\Test\FunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class NumberFormatterExtensionTest extends FunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     protected const NBSP = "\xc2\xa0";
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Administration\AdministrationFacade
-     * @inject
      */
     private $administrationFacade;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->administrationFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Administration\AdministrationFacade::class);
+    }
 
     public function formatNumberDataProvider()
     {

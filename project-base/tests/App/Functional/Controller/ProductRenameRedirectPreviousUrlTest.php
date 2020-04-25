@@ -8,37 +8,39 @@ use App\DataFixtures\Demo\ProductDataFixture;
 use Faker\Provider\Text;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Tests\App\Test\FunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class ProductRenameRedirectPreviousUrlTest extends FunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     private const TESTED_PRODUCT_ID = 100;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface
-     * @inject
      */
     private $productDataFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductFacade
-     * @inject
      */
     private $productFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Component\Router\FriendlyUrl\FriendlyUrlFacade
-     * @inject
      */
     private $friendlyUrlFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Component\EntityExtension\EntityManagerDecorator
-     * @inject
      */
     protected $em;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->productDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface::class);
+        $this->productFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductFacade::class);
+        $this->em = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Component\EntityExtension\EntityManagerDecorator::class);
+        $this->friendlyUrlFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Component\Router\FriendlyUrl\FriendlyUrlFacade::class);
+    }
 
     public function testPreviousUrlRedirect(): void
     {

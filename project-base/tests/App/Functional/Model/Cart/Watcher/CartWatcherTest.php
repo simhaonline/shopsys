@@ -18,41 +18,43 @@ use Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserIdentifier;
 use Shopsys\FrameworkBundle\Model\Product\ProductVisibility;
 use Shopsys\FrameworkBundle\Model\Product\ProductVisibilityRepository;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class CartWatcherTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceCalculationForCustomerUser
-     * @inject
      */
     private $productPriceCalculationForCustomerUser;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Cart\Watcher\CartWatcher
-     * @inject
      */
     private $cartWatcher;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\Pricing\ProductManualInputPriceFacade
-     * @inject
      */
     private $manualInputPriceFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface
-     * @inject
      */
     private $productDataFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Pricing\Vat\VatFacade
-     * @inject
      */
     private $vatFacade;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->manualInputPriceFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\Pricing\ProductManualInputPriceFacade::class);
+        $this->cartWatcher = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Cart\Watcher\CartWatcher::class);
+        $this->productPriceCalculationForCustomerUser = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceCalculationForCustomerUser::class);
+        $this->productDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface::class);
+        $this->vatFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Pricing\Vat\VatFacade::class);
+    }
 
     public function testGetModifiedPriceItemsAndUpdatePrices()
     {

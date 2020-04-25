@@ -15,27 +15,21 @@ use Shopsys\FrameworkBundle\Model\Product\Filter\ProductFilterData;
 use Shopsys\FrameworkBundle\Model\Product\Parameter\ParameterValue;
 use Shopsys\FrameworkBundle\Model\Product\ProductOnCurrentDomainFacadeInterface;
 use Tests\App\Test\ParameterTransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 abstract class ProductOnCurrentDomainFacadeCountDataTest extends ParameterTransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\Filter\ProductFilterConfigFactory
-     * @inject
      */
     protected $productFilterConfigFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\Parameter\ParameterRepository
-     * @inject
      */
     protected $parameterRepository;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Pricing\PriceConverter
-     * @inject
      */
     protected $priceConverter;
 
@@ -47,6 +41,10 @@ abstract class ProductOnCurrentDomainFacadeCountDataTest extends ParameterTransa
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->productFilterConfigFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\Filter\ProductFilterConfigFactory::class);
+        $this->parameterRepository = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\Parameter\ParameterRepository::class);
+        $this->priceConverter = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Pricing\PriceConverter::class);
         $this->productOnCurrentDomainFacade = $this->getProductOnCurrentDomainFacade();
     }
 

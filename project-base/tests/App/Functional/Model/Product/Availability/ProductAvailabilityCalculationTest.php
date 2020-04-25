@@ -14,23 +14,25 @@ use Shopsys\FrameworkBundle\Model\Product\ProductRepository;
 use Shopsys\FrameworkBundle\Model\Product\ProductSellingDeniedRecalculator;
 use Shopsys\FrameworkBundle\Model\Product\ProductVisibilityFacade;
 use Tests\App\Test\FunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class ProductAvailabilityCalculationTest extends FunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface
-     * @inject
      */
     private $productDataFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Pricing\Vat\VatFacade
-     * @inject
      */
     private $vatFacade;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->productDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface::class);
+        $this->vatFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Pricing\Vat\VatFacade::class);
+    }
 
     /**
      * @dataProvider getTestCalculateAvailabilityData

@@ -11,35 +11,37 @@ use Shopsys\FrameworkBundle\Model\Product\Elasticsearch\ProductIndex;
 use Shopsys\FrameworkBundle\Model\Product\Listing\ProductListOrderingConfig;
 use Shopsys\FrameworkBundle\Model\Product\Search\FilterQuery;
 use Tests\App\Test\ParameterTransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class FilterQueryTest extends ParameterTransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Elasticsearch\Client
-     * @inject
      */
     private $elasticsearchClient;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\Search\FilterQueryFactory
-     * @inject
      */
     private $filterQueryFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Pricing\PriceConverter
-     * @inject
      */
     private $priceConverter;
 
     /**
      * @var \Shopsys\FrameworkBundle\Component\Elasticsearch\IndexDefinitionLoader
-     * @inject
      */
     private $indexDefinitionLoader;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->elasticsearchClient = $this->getTestContainer()->get(\Elasticsearch\Client::class);
+        $this->filterQueryFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\Search\FilterQueryFactory::class);
+        $this->priceConverter = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Pricing\PriceConverter::class);
+        $this->indexDefinitionLoader = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Component\Elasticsearch\IndexDefinitionLoader::class);
+    }
 
     public function testBrand(): void
     {

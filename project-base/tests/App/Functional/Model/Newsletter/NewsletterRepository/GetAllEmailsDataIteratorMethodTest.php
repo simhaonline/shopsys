@@ -8,19 +8,21 @@ use Doctrine\ORM\Internal\Hydration\IterableResult;
 use PHPUnit\Framework\Assert;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class GetAllEmailsDataIteratorMethodTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     protected const FIRST_DOMAIN_SUBSCRIBER_EMAIL = 'james.black@no-reply.com';
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Newsletter\NewsletterRepository
-     * @inject
      */
     private $newsletterRepository;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->newsletterRepository = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Newsletter\NewsletterRepository::class);
+    }
 
     public function testSubscriberFoundInFirstDomain(): void
     {

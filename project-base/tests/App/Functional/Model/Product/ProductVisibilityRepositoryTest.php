@@ -18,47 +18,49 @@ use Shopsys\FrameworkBundle\Model\Pricing\Vat\VatData;
 use Shopsys\FrameworkBundle\Model\Product\ProductData;
 use Shopsys\FrameworkBundle\Model\Product\ProductVisibility;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class ProductVisibilityRepositoryTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface
-     * @inject
      */
     private $productDataFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroupFacade
-     * @inject
      */
     private $pricingGroupFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceRecalculator
-     * @inject
      */
     private $productPriceRecalculator;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductFacade
-     * @inject
      */
     private $productFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductVisibilityRepository
-     * @inject
      */
     private $productVisibilityRepository;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Localization\Localization
-     * @inject
      */
     private $localization;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->productDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface::class);
+        $this->pricingGroupFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroupFacade::class);
+        $this->productPriceRecalculator = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceRecalculator::class);
+        $this->productFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductFacade::class);
+        $this->productVisibilityRepository = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductVisibilityRepository::class);
+        $this->localization = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Localization\Localization::class);
+    }
 
     /**
      * @return \App\Model\Product\ProductData

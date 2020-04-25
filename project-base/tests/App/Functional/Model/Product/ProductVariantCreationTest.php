@@ -8,35 +8,37 @@ use App\DataFixtures\Demo\AvailabilityDataFixture;
 use Shopsys\FrameworkBundle\Model\Product\Product;
 use Shopsys\FrameworkBundle\Model\Product\ProductData;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 final class ProductVariantCreationTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductFacade
-     * @inject
      */
     private $productFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductVariantFacade
-     * @inject
      */
     private $productVariantFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface
-     * @inject
      */
     private $productDataFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Pricing\Vat\VatFacade
-     * @inject
      */
     private $vatFacade;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->productFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductFacade::class);
+        $this->productDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface::class);
+        $this->productVariantFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductVariantFacade::class);
+        $this->vatFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Pricing\Vat\VatFacade::class);
+    }
 
     /**
      * @return array

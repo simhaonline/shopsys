@@ -14,41 +14,43 @@ use Shopsys\FrameworkBundle\Model\Pricing\PricingSetting;
 use Shopsys\FrameworkBundle\Model\Product\Pricing\ProductManualInputPrice;
 use Tests\App\Test\TransactionFunctionalTestCase;
 use Tests\FrameworkBundle\Test\IsMoneyEqual;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class ProductInputPriceRecalculatorTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Component\Setting\Setting
-     * @inject
      */
     private $setting;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Pricing\PricingSetting
-     * @inject
      */
     private $pricingSetting;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\Pricing\ProductInputPriceRecalculator
-     * @inject
      */
     private $productInputPriceRecalculator;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Pricing\Vat\VatFacade
-     * @inject
      */
     private $vatFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface
-     * @inject
      */
     private $productDataFactory;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->setting = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Component\Setting\Setting::class);
+        $this->pricingSetting = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Pricing\PricingSetting::class);
+        $this->productInputPriceRecalculator = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\Pricing\ProductInputPriceRecalculator::class);
+        $this->vatFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Pricing\Vat\VatFacade::class);
+        $this->productDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface::class);
+    }
 
     public function testRecalculateInputPriceForNewVatPercentWithInputPriceWithoutVat()
     {

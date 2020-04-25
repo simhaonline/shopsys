@@ -5,44 +5,46 @@ declare(strict_types=1);
 namespace Tests\App\Functional\Model\Category;
 
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class CategoryRepositoryTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     protected const FIRST_DOMAIN_ID = 1;
     protected const SECOND_DOMAIN_ID = 2;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Category\CategoryFacade
-     * @inject
      */
     private $categoryFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Category\CategoryRepository
-     * @inject
      */
     private $categoryRepository;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Category\CategoryVisibilityRepository
-     * @inject
      */
     private $categoryVisibilityRepository;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Category\CategoryDataFactoryInterface
-     * @inject
      */
     private $categoryDataFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Localization\Localization
-     * @inject
      */
     private $localization;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->categoryFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Category\CategoryFacade::class);
+        $this->categoryRepository = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Category\CategoryRepository::class);
+        $this->categoryVisibilityRepository = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Category\CategoryVisibilityRepository::class);
+        $this->categoryDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Category\CategoryDataFactoryInterface::class);
+        $this->localization = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Localization\Localization::class);
+    }
 
     public function testDoNotGetCategoriesWithoutVisibleChildren()
     {

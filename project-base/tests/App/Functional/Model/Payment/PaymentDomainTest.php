@@ -6,26 +6,28 @@ namespace Tests\App\Functional\Model\Payment;
 
 use App\Model\Payment\Payment;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class PaymentDomainTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     protected const FIRST_DOMAIN_ID = 1;
     protected const SECOND_DOMAIN_ID = 2;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Payment\PaymentDataFactoryInterface
-     * @inject
      */
     private $paymentDataFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Payment\PaymentFactoryInterface
-     * @inject
      */
     private $paymentFactory;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->paymentFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Payment\PaymentFactoryInterface::class);
+        $this->paymentDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Payment\PaymentDataFactoryInterface::class);
+    }
 
     public function testCreatePaymentEnabledOnDomain()
     {

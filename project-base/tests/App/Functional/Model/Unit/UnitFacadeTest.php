@@ -8,29 +8,31 @@ use App\DataFixtures\Demo\ProductDataFixture;
 use App\DataFixtures\Demo\UnitDataFixture;
 use Shopsys\FrameworkBundle\Model\Product\Unit\UnitData;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class UnitFacadeTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\Unit\UnitFacade
-     * @inject
      */
     private $unitFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface
-     * @inject
      */
     private $productDataFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductFacade
-     * @inject
      */
     private $productFacade;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->productDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface::class);
+        $this->unitFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\Unit\UnitFacade::class);
+        $this->productFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductFacade::class);
+    }
 
     public function testDeleteByIdAndReplace()
     {

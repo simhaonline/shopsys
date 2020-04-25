@@ -8,17 +8,19 @@ use Shopsys\FrameworkBundle\Model\Product\Filter\ProductFilterData;
 use Shopsys\FrameworkBundle\Model\Product\Listing\ProductListOrderingConfig;
 use Shopsys\ReadModelBundle\Product\Listed\ListedProductView;
 use Tests\App\Test\FunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class ListedProductViewFacadeTest extends FunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewFacadeInterface
-     * @inject
      */
     private $listedProductViewFacade;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->listedProductViewFacade = $this->getTestContainer()->get(\Shopsys\ReadModelBundle\Product\Listed\ListedProductViewFacadeInterface::class);
+    }
 
     public function testGetAllAccessories(): void
     {

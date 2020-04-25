@@ -8,35 +8,37 @@ use App\Model\Payment\Payment;
 use App\Model\Transport\Transport;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class OrderTransportAndPaymentTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Model\Transport\TransportFacade
-     * @inject
      */
     private $transportFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Payment\PaymentFacade
-     * @inject
      */
     private $paymentFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Payment\PaymentDataFactoryInterface
-     * @inject
      */
     private $paymentDataFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Transport\TransportDataFactoryInterface
-     * @inject
      */
     private $transportDataFactory;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->paymentFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Payment\PaymentFacade::class);
+        $this->paymentDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Payment\PaymentDataFactoryInterface::class);
+        $this->transportFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Transport\TransportFacade::class);
+        $this->transportDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Transport\TransportDataFactoryInterface::class);
+    }
 
     public function testVisibleTransport()
     {

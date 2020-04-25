@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace Tests\App\Test;
 
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
+use Shopsys\FrameworkBundle\Component\EntityExtension\EntityManagerDecorator;
 
 abstract class TransactionFunctionalTestCase extends FunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Component\EntityExtension\EntityManagerDecorator
-     * @inject
      */
     protected $em;
 
     protected function setUp(): void
     {
+        $this->em = $this->getTestContainer()->get(EntityManagerDecorator::class);
+
         parent::setUp();
 
         $this->em->beginTransaction();

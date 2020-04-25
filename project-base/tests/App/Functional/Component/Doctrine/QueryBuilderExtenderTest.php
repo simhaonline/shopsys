@@ -14,9 +14,14 @@ class QueryBuilderExtenderTest extends TransactionFunctionalTestCase
 {
     /**
      * @var \Shopsys\FrameworkBundle\Component\Doctrine\QueryBuilderExtender
-     * @inject
      */
     private $queryBuilderExtender;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->queryBuilderExtender = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Component\Doctrine\QueryBuilderExtender::class);
+    }
 
     /**
      * @dataProvider extendJoinWithExtendedEntityProvider

@@ -8,29 +8,31 @@ use App\DataFixtures\Demo\OrderDataFixture;
 use App\DataFixtures\Demo\OrderStatusDataFixture;
 use Shopsys\FrameworkBundle\Model\Order\Status\OrderStatusData;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class OrderStatusFacadeTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Model\Order\Status\OrderStatusFacade
-     * @inject
      */
     private $orderStatusFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Order\OrderFacade
-     * @inject
      */
     private $orderFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Order\OrderDataFactoryInterface
-     * @inject
      */
     private $orderDataFactory;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->orderFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Order\OrderFacade::class);
+        $this->orderStatusFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Order\Status\OrderStatusFacade::class);
+        $this->orderDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Order\OrderDataFactoryInterface::class);
+    }
 
     public function testDeleteByIdAndReplace()
     {

@@ -8,23 +8,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Tests\App\Test\FunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class AuthenticatorTest extends FunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Model\Security\Authenticator
-     * @inject
      */
     private $authenticator;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserFacade
-     * @inject
      */
     private $customerUserFacade;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->authenticator = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Security\Authenticator::class);
+        $this->customerUserFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserFacade::class);
+    }
 
     public function testSessionIdIsChangedAfterLogin(): void
     {

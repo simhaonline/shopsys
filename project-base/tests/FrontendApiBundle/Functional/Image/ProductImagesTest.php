@@ -15,13 +15,13 @@ class ProductImagesTest extends GraphQlTestCase
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductFacade
-     * @inject
      */
     private $productFacade;
 
     protected function setUp(): void
     {
         parent::setUp();
+        $this->productFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductFacade::class);
 
         $this->product = $this->productFacade->getById(1);
     }

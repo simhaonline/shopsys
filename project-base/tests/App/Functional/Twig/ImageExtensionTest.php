@@ -9,17 +9,19 @@ use Shopsys\FrameworkBundle\Component\Image\Image;
 use Shopsys\FrameworkBundle\Component\Image\ImageFacade;
 use Shopsys\FrameworkBundle\Twig\ImageExtension;
 use Tests\App\Test\FunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class ImageExtensionTest extends FunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Component\Image\ImageLocator
-     * @inject
      */
     private $imageLocator;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->imageLocator = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Component\Image\ImageLocator::class);
+    }
 
     public function testGetImageHtmlWithAdditional(): void
     {

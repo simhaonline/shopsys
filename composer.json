@@ -177,8 +177,7 @@
         "symplify/easy-coding-standard": "7.2.2",
         "symplify/easy-coding-standard-tester": "7.2.2",
         "symplify/monorepo-builder": "7.2.2",
-        "symplify/package-builder": "7.2.2",
-        "zalas/phpunit-injector": "^1.4"
+        "symplify/package-builder": "7.2.2"
     },
     "conflict": {
         "symfony/symfony": "*"

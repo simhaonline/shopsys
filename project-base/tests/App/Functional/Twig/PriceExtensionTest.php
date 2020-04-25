@@ -14,40 +14,38 @@ use Shopsys\FrameworkBundle\Model\Pricing\Currency\Currency;
 use Shopsys\FrameworkBundle\Model\Pricing\Currency\CurrencyFacade;
 use Shopsys\FrameworkBundle\Twig\PriceExtension;
 use Tests\App\Test\FunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class PriceExtensionTest extends FunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     protected const NBSP = "\xc2\xa0";
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Localization\IntlCurrencyRepository
-     * @inject
      */
     private $intlCurrencyRepository;
 
     /**
      * @var \Shopsys\FrameworkBundle\Component\CurrencyFormatter\CurrencyFormatterFactory
-     * @inject
      */
     private $currencyFormatterFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Pricing\Currency\CurrencyFactoryInterface
-     * @inject
      */
     private $currencyFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Pricing\Currency\CurrencyDataFactoryInterface
-     * @inject
      */
     private $currencyDataFactory;
 
     protected function setUp(): void
     {
+        $this->currencyDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Pricing\Currency\CurrencyDataFactoryInterface::class);
+        $this->currencyFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Pricing\Currency\CurrencyFactoryInterface::class);
+        $this->currencyFormatterFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Component\CurrencyFormatter\CurrencyFormatterFactory::class);
+        $this->intlCurrencyRepository = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Localization\IntlCurrencyRepository::class);
+
         $domainConfig1 = new DomainConfig(Domain::FIRST_DOMAIN_ID, 'http://example.com', 'example', 'en');
         $domainConfig2 = new DomainConfig(Domain::SECOND_DOMAIN_ID, 'http://example.com', 'example', 'cs');
 

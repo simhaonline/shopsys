@@ -14,15 +14,20 @@ class ImageExtensionTest extends FunctionalTestCase
 {
     /**
      * @var \Shopsys\FrameworkBundle\Component\Image\ImageFacade
-     * @inject
      */
     private $imageFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Component\Image\ImageLocator
-     * @inject
      */
     private $imageLocator;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->imageFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Component\Image\ImageFacade::class);
+        $this->imageLocator = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Component\Image\ImageLocator::class);
+    }
 
     public function testGetImageHtmlWithMockedImageFacade(): void
     {

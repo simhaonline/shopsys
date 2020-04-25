@@ -16,50 +16,52 @@ use Shopsys\FrameworkBundle\Model\Product\Availability\AvailabilityData;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Tests\App\Test\TransactionFunctionalTestCase;
 use Tests\FrameworkBundle\Test\IsMoneyEqual;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class InputPriceRecalculationSchedulerTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     private const METHOD_WITH_VAT = 'scheduleSetInputPricesWithVat';
     private const METHOD_WITHOUT_VAT = 'scheduleSetInputPricesWithoutVat';
 
     /**
      * @var \Shopsys\FrameworkBundle\Component\Setting\Setting
-     * @inject
      */
     private $setting;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Pricing\InputPriceRecalculationScheduler
-     * @inject
      */
     private $inputPriceRecalculationScheduler;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Payment\PaymentFacade
-     * @inject
      */
     private $paymentFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Transport\TransportFacade
-     * @inject
      */
     private $transportFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Payment\PaymentDataFactoryInterface
-     * @inject
      */
     private $paymentDataFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Transport\TransportDataFactoryInterface
-     * @inject
      */
     private $transportDataFactory;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->setting = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Component\Setting\Setting::class);
+        $this->inputPriceRecalculationScheduler = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Pricing\InputPriceRecalculationScheduler::class);
+        $this->paymentFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Payment\PaymentFacade::class);
+        $this->transportFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Transport\TransportFacade::class);
+        $this->paymentDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Payment\PaymentDataFactoryInterface::class);
+        $this->transportDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Transport\TransportDataFactoryInterface::class);
+    }
 
     public function testOnKernelResponseNoAction()
     {

@@ -10,7 +10,6 @@ class PaymentTest extends GraphQlTestCase
 {
     /**
      * @var \Shopsys\FrameworkBundle\Model\Payment\PaymentFacade
-     * @inject
      */
     protected $paymentFacade;
 
@@ -21,6 +20,7 @@ class PaymentTest extends GraphQlTestCase
 
     protected function setUp(): void
     {
+        $this->paymentFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Payment\PaymentFacade::class);
         $this->payment = $this->paymentFacade->getById(2);
 
         parent::setUp();

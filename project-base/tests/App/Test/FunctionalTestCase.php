@@ -11,13 +11,9 @@ use Shopsys\FrameworkBundle\Component\Money\Money;
 use Shopsys\FrameworkBundle\Component\Router\DomainRouterFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
-use Zalas\Injector\PHPUnit\TestCase\ServiceContainerTestCase;
 
-abstract class FunctionalTestCase extends WebTestCase implements ServiceContainerTestCase
+abstract class FunctionalTestCase extends WebTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Symfony\Bundle\FrameworkBundle\Client
      */
@@ -25,19 +21,16 @@ abstract class FunctionalTestCase extends WebTestCase implements ServiceContaine
 
     /**
      * @var \Shopsys\FrameworkBundle\Component\DataFixture\PersistentReferenceFacade
-     * @inject
      */
     protected $persistentReferenceFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Pricing\PriceConverter
-     * @inject
      */
     private $priceConverter;
 
     /**
      * @var \Shopsys\FrameworkBundle\Component\Domain\Domain
-     * @inject
      */
     protected $domain;
 
@@ -49,6 +42,11 @@ abstract class FunctionalTestCase extends WebTestCase implements ServiceContaine
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->domain = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Component\Domain\Domain::class);
+        $this->priceConverter = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Pricing\PriceConverter::class);
+        $this->persistentReferenceFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Component\DataFixture\PersistentReferenceFacade::class);
+
         $this->setUpDomain();
     }
 
@@ -96,7 +94,15 @@ abstract class FunctionalTestCase extends WebTestCase implements ServiceContaine
      */
     protected function getContainer()
     {
-        return $this->findClient()->getContainer();
+        return $this->findClient()->getContainer()->get('test.service_container');
+    }
+
+    /**
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface
+     */
+    protected function getTestContainer(): ContainerInterface
+    {
+        return $this->getContainer();
     }
 
     /**

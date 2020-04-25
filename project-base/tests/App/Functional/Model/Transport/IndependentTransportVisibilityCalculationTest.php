@@ -7,29 +7,31 @@ namespace Tests\App\Functional\Model\Transport;
 use App\Model\Transport\Transport;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class IndependentTransportVisibilityCalculationTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Model\Localization\Localization
-     * @inject
      */
     private $localization;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Transport\IndependentTransportVisibilityCalculation
-     * @inject
      */
     private $independentTransportVisibilityCalculation;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Transport\TransportDataFactoryInterface
-     * @inject
      */
     private $transportDataFactory;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->independentTransportVisibilityCalculation = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Transport\IndependentTransportVisibilityCalculation::class);
+        $this->localization = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Localization\Localization::class);
+        $this->transportDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Transport\TransportDataFactoryInterface::class);
+    }
 
     public function testIsIndependentlyVisible()
     {

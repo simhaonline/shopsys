@@ -6,23 +6,25 @@ namespace Tests\App\Functional\Form\Admin\AdvancedSearch;
 
 use Shopsys\FrameworkBundle\Form\Admin\AdvancedSearch\AdvancedSearchProductFilterTranslation;
 use Tests\App\Test\FunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class AdvancedSearchProductFilterTranslationTest extends FunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Model\AdvancedSearch\ProductAdvancedSearchConfig
-     * @inject
      */
     private $advancedSearchConfig;
 
     /**
      * @var \Shopsys\FrameworkBundle\Form\Admin\AdvancedSearch\AdvancedSearchProductFilterTranslation
-     * @inject
      */
     private $advancedSearchProductFilterTranslation;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->advancedSearchConfig = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\AdvancedSearch\ProductAdvancedSearchConfig::class);
+        $this->advancedSearchProductFilterTranslation = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Form\Admin\AdvancedSearch\AdvancedSearchProductFilterTranslation::class);
+    }
 
     public function testTranslateFilterName()
     {

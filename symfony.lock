@@ -1080,12 +1080,6 @@
     "willdurand/negotiation": {
         "version": "v2.3.1"
     },
-    "zalas/injector": {
-        "version": "v1.2.0"
-    },
-    "zalas/phpunit-injector": {
-        "version": "v1.2.7"
-    },
     "zendframework/zend-code": {
         "version": "3.4.0"
     },

@@ -8,12 +8,9 @@ use App\DataFixtures\Demo\AvailabilityDataFixture;
 use App\Model\Product\Product;
 use App\Model\Product\ProductData;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class ProductDomainTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     protected const FIRST_DOMAIN_ID = 1;
     protected const SECOND_DOMAIN_ID = 2;
     protected const DEMONSTRATIVE_DESCRIPTION = 'Demonstrative description';
@@ -24,21 +21,26 @@ class ProductDomainTest extends TransactionFunctionalTestCase
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface
-     * @inject
      */
     private $productDataFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductFactoryInterface
-     * @inject
      */
     private $productFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Pricing\Vat\VatFacade
-     * @inject
      */
     private $vatFacade;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->productFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductFactoryInterface::class);
+        $this->productDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface::class);
+        $this->vatFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Pricing\Vat\VatFacade::class);
+    }
 
     /**
      * @group multidomain

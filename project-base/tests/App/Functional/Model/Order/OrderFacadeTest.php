@@ -12,59 +12,61 @@ use App\Model\Order\OrderData;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Component\Money\Money;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class OrderFacadeTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Model\Cart\CartFacade
-     * @inject
      */
     private $cartFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Order\OrderFacade
-     * @inject
      */
     private $orderFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Order\Preview\OrderPreviewFactory
-     * @inject
      */
     private $orderPreviewFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Order\OrderRepository
-     * @inject
      */
     private $orderRepository;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductRepository
-     * @inject
      */
     private $productRepository;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Transport\TransportRepository
-     * @inject
      */
     private $transportRepository;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Payment\PaymentRepository
-     * @inject
      */
     private $paymentRepository;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Order\OrderDataFactoryInterface
-     * @inject
      */
     private $orderDataFactory;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->cartFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Cart\CartFacade::class);
+        $this->orderFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Order\OrderFacade::class);
+        $this->orderPreviewFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Order\Preview\OrderPreviewFactory::class);
+        $this->orderRepository = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Order\OrderRepository::class);
+        $this->productRepository = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductRepository::class);
+        $this->transportRepository = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Transport\TransportRepository::class);
+        $this->paymentRepository = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Payment\PaymentRepository::class);
+        $this->orderDataFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Order\OrderDataFactoryInterface::class);
+    }
 
     public function testCreate()
     {

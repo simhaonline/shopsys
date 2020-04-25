@@ -12,9 +12,14 @@ class ProductActionViewFacadeTest extends FunctionalTestCase
 {
     /**
      * @var \Shopsys\ReadModelBundle\Product\Action\ProductActionViewFacade
-     * @inject
      */
     private $productActionViewFacade;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->productActionViewFacade = $this->getTestContainer()->get(\Shopsys\ReadModelBundle\Product\Action\ProductActionViewFacade::class);
+    }
 
     public function testGetForSingleProduct(): void
     {

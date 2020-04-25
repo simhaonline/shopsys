@@ -10,9 +10,14 @@ class ParameterTransactionFunctionalTestCase extends TransactionFunctionalTestCa
 {
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\Parameter\ParameterFacade
-     * @inject
      */
     protected $parameterFacade;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->parameterFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\Parameter\ParameterFacade::class);
+    }
 
     /**
      * @param string $parameterValueNameId

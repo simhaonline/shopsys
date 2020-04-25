@@ -8,23 +8,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class FragmentHandlerTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Symfony\Bridge\Twig\Extension\HttpKernelRuntime
-     * @inject
      */
     private $httpKernelRuntime;
 
     /**
      * @var \Symfony\Component\HttpFoundation\RequestStack
-     * @inject
      */
     private $requestStack;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->httpKernelRuntime = $this->getTestContainer()->get(\Symfony\Bridge\Twig\Extension\HttpKernelRuntime::class);
+        $this->requestStack = $this->getTestContainer()->get(\Symfony\Component\HttpFoundation\RequestStack::class);
+    }
 
     public function testRenderingFragmentDoesNotIgnoreException()
     {

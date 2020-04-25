@@ -11,71 +11,73 @@ use Shopsys\FrameworkBundle\Model\Cart\Item\CartItem;
 use Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserIdentifier;
 use Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserIdentifierFactory;
 use Tests\App\Test\TransactionFunctionalTestCase;
-use Zalas\Injector\PHPUnit\Symfony\TestCase\SymfonyTestContainer;
 
 class CartFacadeDeleteOldCartsTest extends TransactionFunctionalTestCase
 {
-    use SymfonyTestContainer;
-
     /**
      * @var \Shopsys\FrameworkBundle\Model\Cart\CartFactory
-     * @inject
      */
     private $cartFactory;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductRepository
-     * @inject
      */
     private $productRepository;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Customer\User\CurrentCustomerUser
-     * @inject
      */
     private $currentCustomerUser;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Order\PromoCode\CurrentPromoCodeFacade
-     * @inject
      */
     private $currentPromoCodeFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceCalculationForCustomerUser
-     * @inject
      */
     private $productPriceCalculationForCustomerUser;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Cart\Item\CartItemFactoryInterface
-     * @inject
      */
     private $cartItemFactoryInterface;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Cart\CartRepository
-     * @inject
      */
     private $cartRepository;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Cart\Watcher\CartWatcherFacade
-     * @inject
      */
     private $cartWatcherFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductFacade
-     * @inject
      */
     private $productFacade;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserFacade
-     * @inject
      */
     private $customerUserFacade;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->productFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductFacade::class);
+        $this->customerUserFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserFacade::class);
+        $this->cartWatcherFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Cart\Watcher\CartWatcherFacade::class);
+        $this->cartRepository = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Cart\CartRepository::class);
+        $this->cartItemFactoryInterface = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Cart\Item\CartItemFactoryInterface::class);
+        $this->cartFactory = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Cart\CartFactory::class);
+        $this->productPriceCalculationForCustomerUser = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceCalculationForCustomerUser::class);
+        $this->currentPromoCodeFacade = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Order\PromoCode\CurrentPromoCodeFacade::class);
+        $this->currentCustomerUser = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Customer\User\CurrentCustomerUser::class);
+        $this->productRepository = $this->getTestContainer()->get(\Shopsys\FrameworkBundle\Model\Product\ProductRepository::class);
+    }
 
     public function testOldUnregisteredCustomerCartGetsDeleted()
     {
