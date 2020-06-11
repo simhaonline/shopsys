@@ -29,3 +29,10 @@ MutationDecorator:
                     input:
                         type: RefreshTokenInput!
                 resolve: "@=mutation('refresh_tokens', [args])"
+            ChangePassword:
+                type: 'CurrentCustomerUser!'
+                description: "Changes customer user password"
+                args:
+                    input:
+                        type: ChangePasswordInput!
+                resolve: "@=mutation('customer_user_change_password', [args])"

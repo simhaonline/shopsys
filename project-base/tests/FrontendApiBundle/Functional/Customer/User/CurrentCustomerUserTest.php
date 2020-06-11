@@ -35,4 +35,33 @@ class CurrentCustomerUserTest extends GraphQlWithLoginTestCase
 
         $this->assertQueryWithExpectedJson($query, $jsonExpected);
     }
+
+    public function testChangePassword(): void
+    {
+        $query = '
+mutation {
+    ChangePassword(input: {
+        email: "no-reply@shopsys.com"
+        oldPassword: "user123"
+        newPassword: "user124"
+    }) {
+        firstName
+        lastName
+        email
+        telephone
+    }
+}';
+
+        $jsonExpected = '
+{
+    "data": {
+        "query": {
+            "firstName": "Jaromír",
+            "lastName": "Jágr",
+            "email": "no-reply@shopsys.com",
+            "telephone": "605000123"
+        }
+    }
+}';
+    }
 }
