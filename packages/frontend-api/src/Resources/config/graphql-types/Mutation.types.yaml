@@ -36,3 +36,10 @@ MutationDecorator:
                     input:
                         type: ChangePasswordInput!
                 resolve: "@=mutation('customer_user_change_password', [args])"
+            ChangePersonalData:
+                type: 'CurrentCustomerUser!'
+                description: "Changes customer user personal data"
+                args:
+                    input:
+                        type: ChangePersonalDataInput!
+                resolve: "@=mutation('customer_user_change_personal_data', [args])"

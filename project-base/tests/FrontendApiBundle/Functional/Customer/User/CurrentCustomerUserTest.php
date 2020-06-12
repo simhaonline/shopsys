@@ -63,5 +63,38 @@ mutation {
         }
     }
 }';
+
+        $this->assertQueryWithExpectedJson($query, $jsonExpected);
+    }
+
+    public function testChangePersonalData(): void
+    {
+        $query = '
+mutation {
+    ChangePersonalData(input: {
+        telephone: "123456321"
+        firstName: "John"
+        lastName: "Doe"
+    }) {
+        firstName
+        lastName,
+        telephone,
+        email
+    }
+}';
+
+        $jsonExpected = '
+{
+    "data": {
+        "ChangePersonalData": {
+            "firstName": "John",
+            "lastName": "Doe",
+            "telephone": "123456321",
+            "email": "no-reply@shopsys.com"
+        }
+    }
+}';
+
+        $this->assertQueryWithExpectedJson($query, $jsonExpected);
     }
 }
